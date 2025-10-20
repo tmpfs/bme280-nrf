@@ -1,0 +1,22 @@
+[package]
+name = "bme280-nrf52-2c"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+embassy-executor.workspace = true
+embassy-time.workspace = true
+embassy-nrf.workspace = true
+nrf-sdc.workspace = true
+defmt.workspace = true
+defmt-rtt.workspace = true
+panic-probe.workspace = true
+cortex-m-rt.workspace = true
+static_cell.workspace = true
+
+[[bin]]
+name = "bme280-i2c"
+path = "src/main.rs"
+test = false
+doctest = false
+bench = false
