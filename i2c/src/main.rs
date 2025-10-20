@@ -36,9 +36,9 @@ async fn main(_spawner: Spawner) {
     let mosi = p.P0_15;
     let cs_pin = p.P0_16;
 
-    let cs = Output::new(cs_pin, Level::High, OutputDrive::Standard0HighDrive1);
-    let sck = Output::new(sck, Level::High, OutputDrive::Standard0HighDrive1);
-    let mosi = Output::new(mosi, Level::High, OutputDrive::Standard0HighDrive1);
+    let cs = Output::new(cs_pin, Level::High, OutputDrive::HighDrive);
+    let sck = Output::new(sck, Level::High, OutputDrive::HighDrive);
+    let mosi = Output::new(mosi, Level::High, OutputDrive::HighDrive);
 
     let mut driver = MAX7219::from_pins(1, mosi, cs, sck).expect("to init MAX7219");
     driver.power_on().unwrap();
