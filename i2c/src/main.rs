@@ -63,7 +63,6 @@ async fn main(_spawner: Spawner) {
     let mut bme = bme280::i2c::BME280::new_primary(i2c);
     bme.init(&mut Delay).expect("to init bme280 sensor");
 
-    let mut s = String::<8>::new();
     loop {
         let measurements = bme.measure(&mut Delay).expect("to measure temperature");
 
@@ -74,13 +73,11 @@ async fn main(_spawner: Spawner) {
         let int_humidity = truncf(measurements.humidity) as i32;
         let temp = measurements.temperature;
         let int_temp = truncf(temp) as i32;
-        let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 100.0)) as u32;
-        write!(
-            &mut s,
-            "{:02}{:02}{:02}  ",
-            int_temp, frac_temp, int_humidity
-        )
-        .ok();
+        let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
+
+        let mut s = String::<8>::new();
+        write!(&mut s, "{:02}{}C{:03}H", int_temp, frac_temp, int_humidity).unwrap();
+        defmt::info!("{}", s.as_str());
 
         let buf: [u8; 8] = s.as_bytes().try_into().unwrap();
         driver.write_str(0, &buf, 0b01000000).unwrap();
