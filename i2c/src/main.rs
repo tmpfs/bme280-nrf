@@ -75,11 +75,11 @@ async fn main(_spawner: Spawner) {
         let int_temp = truncf(temp) as i32;
         let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
 
-        let mut s = String::<8>::new();
+        let mut s = String::<16>::new();
         write!(&mut s, "{:02}{}C{:03}H", int_temp, frac_temp, int_humidity).unwrap();
         defmt::info!("{}", s.as_str());
 
-        let buf: [u8; 8] = s.as_bytes().try_into().unwrap();
+        let buf: [u8; 8] = s.as_bytes()[..8].try_into().unwrap();
         driver.write_str(0, &buf, 0b01000000).unwrap();
         Timer::after_secs(5).await;
     }
