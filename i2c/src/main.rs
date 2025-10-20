@@ -48,6 +48,6 @@ async fn main(_spawner: Spawner) {
         defmt::info!("Relative Humidity = {}%", measurements.humidity);
         defmt::info!("Temperature = {} deg C", measurements.temperature);
         defmt::info!("Pressure = {} pascals", measurements.pressure);
-        Timer::after_millis(250).await;
+        Timer::after_secs(5).await;
     }
 }
