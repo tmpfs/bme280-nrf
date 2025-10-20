@@ -1,9 +1,11 @@
 [package]
-name = "bme280-nrf52-2c"
+name = "bme280-nrf52-i2c"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bme280.workspace = true
+
 embassy-executor.workspace = true
 embassy-time.workspace = true
 embassy-nrf.workspace = true
@@ -11,8 +13,10 @@ nrf-sdc.workspace = true
 defmt.workspace = true
 defmt-rtt.workspace = true
 panic-probe.workspace = true
+cortex-m = { version = "0.7", features = ["critical-section-single-core"] }
 cortex-m-rt.workspace = true
 static_cell.workspace = true
+critical-section = "1"
 
 [[bin]]
 name = "bme280-i2c"
