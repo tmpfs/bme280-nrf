@@ -5,6 +5,9 @@ edition = "2024"
 
 [dependencies]
 bme280.workspace = true
+max7219.workspace = true
+libm.workspace = true
+heapless.workspace = true
 
 embassy-executor.workspace = true
 embassy-time.workspace = true
@@ -16,7 +19,6 @@ panic-probe.workspace = true
 cortex-m = { version = "0.7", features = ["critical-section-single-core"] }
 cortex-m-rt.workspace = true
 static_cell.workspace = true
-critical-section = "1"
 
 [[bin]]
 name = "bme280-i2c"
