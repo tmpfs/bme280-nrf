@@ -6,9 +6,7 @@ resolver = "2"
 
 [workspace.dependencies]
 bme280 = "0.5"
-# can't use 0.5 yet due to conflict with 
-# embedded-hal version
-max7219 = "0.4"
+max7219 = "0.5"
 heapless = "0.8"
 libm = "0.2"
 
