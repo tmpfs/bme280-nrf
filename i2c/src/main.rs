@@ -4,10 +4,9 @@
 use core::fmt::Write;
 use embassy_executor::Spawner;
 use embassy_nrf::bind_interrupts;
-use embassy_nrf::peripherals::TWISPI0;
 use embassy_nrf::{
     gpio::{Level, Output, OutputDrive},
-    peripherals, rng,
+    peripherals,
     twim::{self, Twim},
 };
 use embassy_time::{Delay, Timer};
@@ -19,13 +18,7 @@ use libm::{fabsf, roundf, truncf};
 use max7219::MAX7219;
 
 bind_interrupts!(struct Irqs {
-    RNG => rng::InterruptHandler<peripherals::RNG>;
-    EGU0_SWI0 => nrf_sdc::mpsl::LowPrioInterruptHandler;
-    CLOCK_POWER => nrf_sdc::mpsl::ClockInterruptHandler;
-    RADIO => nrf_sdc::mpsl::HighPrioInterruptHandler;
-    TIMER0 => nrf_sdc::mpsl::HighPrioInterruptHandler;
-    RTC0 => nrf_sdc::mpsl::HighPrioInterruptHandler;
-    TWISPI0 => twim::InterruptHandler<TWISPI0>;
+    TWISPI0 => twim::InterruptHandler<peripherals::TWISPI0>;
 });
 
 #[embassy_executor::main]

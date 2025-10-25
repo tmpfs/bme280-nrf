@@ -17,10 +17,10 @@ embassy-futures = "0.1.1"
 embassy-sync = { version = "0.7", features = ["defmt"] }
 
 futures = { version = "0.3", default-features = false, features = ["async-await"]}
-nrf-sdc = { version = "0.4", default-features = false, features = ["defmt", "peripheral", "nrf52840"] }
-nrf-mpsl = { version = "0.3", default-features = false, features = ["defmt", "critical-section-impl"] }
-bt-hci = { version = "0.6", default-features = false, features = ["defmt"] }
-trouble-host = { version = "0.5", features = ["defmt"] }
+# nrf-sdc = { version = "0.4", default-features = false, features = ["defmt", "peripheral", "nrf52840"] }
+# nrf-mpsl = { version = "0.3", default-features = false, features = ["defmt", "critical-section-impl"] }
+# bt-hci = { version = "0.6", default-features = false, features = ["defmt"] }
+# trouble-host = { version = "0.5", features = ["defmt"] }
 
 defmt = "1.0"
 defmt-rtt = "1.0"
@@ -33,7 +33,6 @@ static_cell = "2"
 rand_core = { version = "0.6"}
 rand_chacha = { version = "0.3", default-features = false }
 
-[patch.crates-io]
-nrf-sdc = { git = "https://github.com/alexmoon/nrf-sdc.git", rev = "11d5c3c3653af73b511133c2f8231f33eb0696f4"}
-nrf-mpsl = { git = "https://github.com/alexmoon/nrf-sdc.git", rev = "11d5c3c3653af73b511133c2f8231f33eb0696f4"}
-#bt-hci = { git = "https://github.com/embassy-rs/bt-hci.git", rev = "83a9e179ff019ed60abb73705f54383f89fc60fc" }
+# [patch.crates-io]
+# nrf-sdc = { git = "https://github.com/alexmoon/nrf-sdc.git", rev = "11d5c3c3653af73b511133c2f8231f33eb0696f4"}
+# nrf-mpsl = { git = "https://github.com/alexmoon/nrf-sdc.git", rev = "11d5c3c3653af73b511133c2f8231f33eb0696f4"}
