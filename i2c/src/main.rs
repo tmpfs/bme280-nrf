@@ -67,6 +67,7 @@ async fn main(_spawner: Spawner) {
         let temp = measurements.temperature;
         let int_temp = truncf(temp) as i32;
         let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
+        let frac_temp = frac_temp.min(9);
 
         let mut s = String::<16>::new();
         write!(&mut s, "{:02}{}C{:03}H", int_temp, frac_temp, int_humidity).unwrap();
