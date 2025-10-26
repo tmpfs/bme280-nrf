@@ -10,12 +10,11 @@ use embassy_nrf::{
     twim::{self, Twim},
 };
 use embassy_time::{Delay, Timer};
-use static_cell::ConstStaticCell;
-use {defmt_rtt as _, panic_probe as _};
-
 use heapless::String;
 use libm::{fabsf, roundf, truncf};
 use max7219::MAX7219;
+use static_cell::ConstStaticCell;
+use {defmt_rtt as _, panic_probe as _};
 
 bind_interrupts!(struct Irqs {
     TWISPI0 => twim::InterruptHandler<peripherals::TWISPI0>;
@@ -57,24 +56,29 @@ async fn main(_spawner: Spawner) {
     bme.init(&mut Delay).expect("to init bme280 sensor");
 
     loop {
-        let measurements = bme.measure(&mut Delay).expect("to measure temperature");
+        match bme.measure(&mut Delay) {
+            Ok(measurements) => {
+                defmt::info!("Relative Humidity = {}%", measurements.humidity);
+                defmt::info!("Temperature = {} deg C", measurements.temperature);
+                defmt::info!("Pressure = {} pascals", measurements.pressure);
 
-        defmt::info!("Relative Humidity = {}%", measurements.humidity);
-        defmt::info!("Temperature = {} deg C", measurements.temperature);
-        defmt::info!("Pressure = {} pascals", measurements.pressure);
+                let humidity = truncf(measurements.humidity) as i32;
+                let temp = measurements.temperature;
+                let int_temp = truncf(temp) as i32;
+                let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
+                let frac_temp = frac_temp.min(9);
 
-        let int_humidity = truncf(measurements.humidity) as i32;
-        let temp = measurements.temperature;
-        let int_temp = truncf(temp) as i32;
-        let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
-        let frac_temp = frac_temp.min(9);
+                let mut s = String::<16>::new();
+                write!(&mut s, "{:02}{}C{:03}H", int_temp, frac_temp, humidity).unwrap();
+                defmt::info!("{}", s.as_str());
 
-        let mut s = String::<16>::new();
-        write!(&mut s, "{:02}{}C{:03}H", int_temp, frac_temp, int_humidity).unwrap();
-        defmt::info!("{}", s.as_str());
-
-        let buf: [u8; 8] = s.as_bytes()[..8].try_into().unwrap();
-        driver.write_str(0, &buf, 0b01000000).unwrap();
+                let buf: [u8; 8] = s.as_bytes()[..8].try_into().unwrap();
+                driver.write_str(0, &buf, 0b01000000).unwrap();
+            }
+            Err(_) => {
+                defmt::warn!("failed to measure BME280 sensor");
+            }
+        }
         Timer::after_secs(5).await;
     }
 }
