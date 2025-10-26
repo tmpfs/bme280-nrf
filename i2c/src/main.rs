@@ -65,6 +65,8 @@ async fn main(_spawner: Spawner) {
                 let humidity = truncf(measurements.humidity) as i32;
                 let temp = measurements.temperature;
                 let int_temp = truncf(temp) as i32;
+                let int_temp = int_temp.min(85);
+                let int_temp = int_temp.max(-40);
                 let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
                 let frac_temp = frac_temp.min(9);
 
@@ -73,6 +75,7 @@ async fn main(_spawner: Spawner) {
                 defmt::info!("{}", s.as_str());
 
                 let buf: [u8; 8] = s.as_bytes().try_into().unwrap();
+                // let dots = if int_temp < 0 { 0b00100000 } else { 0b01000000 };
                 driver.write_str(0, &buf, 0b01000000).unwrap();
             }
             Err(_) => {
