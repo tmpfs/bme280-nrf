@@ -12,6 +12,8 @@ use embassy_nrf::{
     peripherals,
     twim::{self, Twim},
 };
+use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+use embassy_sync::signal::Signal;
 use embassy_time::{Delay, Timer};
 use heapless::String;
 use libm::{fabsf, roundf, truncf};
@@ -25,16 +27,35 @@ bind_interrupts!(struct Irqs {
 });
 
 #[repr(u8)]
+#[derive(Default, Copy, Clone, defmt::Format)]
 enum DisplayState {
+    #[default]
     Temp = 1,
     Humidity = 2,
     Pressure = 3,
 }
 
-async fn wait_for_pull_up(mut input: Input<'static>) -> ! {
+impl DisplayState {
+    fn next_state(&self) -> Self {
+        match self {
+            Self::Temp => Self::Humidity,
+            Self::Humidity => Self::Pressure,
+            Self::Pressure => Self::Temp,
+        }
+    }
+}
+
+static CYCLE_DISPLAY: Signal<CriticalSectionRawMutex, DisplayState> = Signal::new();
+
+async fn wait_for_pull_up(mut input: Input<'static>, mut state: DisplayState) -> ! {
     loop {
-        input.wait_for_any_edge().await;
-        defmt::info!("is_low: {}, is_high = {}", input.is_low(), input.is_high());
+        input.wait_for_rising_edge().await;
+        let display = state.next_state();
+        state = display;
+        // defmt::info!("state: {:?}", state);
+        CYCLE_DISPLAY.signal(state);
+        // Debounce a little
+        Timer::after_millis(50).await;
     }
 }
 
@@ -109,5 +130,9 @@ async fn main(_spawner: Spawner) {
     bme.init(&mut Delay).expect("to init bme280 sensor");
 
     let input = Input::new(p.P1_05, Pull::Up);
-    join(wait_for_pull_up(input), refresh_display(bme, driver)).await;
+    join(
+        wait_for_pull_up(input, DisplayState::default()),
+        refresh_display(bme, driver),
+    )
+    .await;
 }
