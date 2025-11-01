@@ -52,25 +52,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bme280-nrf52-i2c"
-version = "0.1.0"
-dependencies = [
- "bme280",
- "cortex-m",
- "cortex-m-rt",
- "defmt",
- "defmt-rtt",
- "embassy-executor",
- "embassy-nrf",
- "embassy-time",
- "heapless",
- "libm",
- "max7219",
- "panic-probe",
- "static_cell",
-]
-
-[[package]]
 name = "bytemuck"
 version = "1.24.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -713,6 +694,25 @@ name = "semver-parser"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
+
+[[package]]
+name = "simple-display"
+version = "0.1.0"
+dependencies = [
+ "bme280",
+ "cortex-m",
+ "cortex-m-rt",
+ "defmt",
+ "defmt-rtt",
+ "embassy-executor",
+ "embassy-nrf",
+ "embassy-time",
+ "heapless",
+ "libm",
+ "max7219",
+ "panic-probe",
+ "static_cell",
+]
 
 [[package]]
 name = "smallvec"

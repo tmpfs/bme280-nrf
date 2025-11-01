@@ -1,6 +1,6 @@
 [workspace]
 members = [
-  "i2c",
+  "simple_display",
 ]
 resolver = "2"
 

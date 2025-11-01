@@ -1,5 +1,5 @@
 [package]
-name = "bme280-nrf52-i2c"
+name = "simple-display"
 version = "0.1.0"
 edition = "2024"
 
@@ -20,7 +20,7 @@ cortex-m-rt.workspace = true
 static_cell.workspace = true
 
 [[bin]]
-name = "bme280-i2c"
+name = "simple-display"
 path = "src/main.rs"
 test = false
 doctest = false
