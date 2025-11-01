@@ -1,5 +1,5 @@
 [package]
-name = "simple-display"
+name = "button-display"
 version = "0.1.0"
 edition = "2024"
 publish = false
@@ -21,7 +21,7 @@ cortex-m-rt.workspace = true
 static_cell.workspace = true
 
 [[bin]]
-name = "simple-display"
+name = "button-display"
 path = "src/main.rs"
 test = false
 doctest = false

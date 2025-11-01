@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "button_display",
   "simple_display",
 ]
 resolver = "2"

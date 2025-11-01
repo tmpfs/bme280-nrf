@@ -52,6 +52,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "button-display"
+version = "0.1.0"
+dependencies = [
+ "bme280",
+ "cortex-m",
+ "cortex-m-rt",
+ "defmt",
+ "defmt-rtt",
+ "embassy-executor",
+ "embassy-nrf",
+ "embassy-time",
+ "heapless",
+ "libm",
+ "max7219",
+ "panic-probe",
+ "static_cell",
+]
+
+[[package]]
 name = "bytemuck"
 version = "1.24.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
