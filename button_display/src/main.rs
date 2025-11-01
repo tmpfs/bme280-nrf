@@ -4,7 +4,8 @@
 use bme280::i2c::BME280;
 use core::fmt::Write;
 use embassy_executor::Spawner;
-use embassy_futures::join::join;
+use embassy_futures::select::Either;
+use embassy_futures::{join::join, select::select};
 use embassy_nrf::bind_interrupts;
 use embassy_nrf::gpio::{Input, Pull};
 use embassy_nrf::{
@@ -52,7 +53,6 @@ async fn wait_for_pull_up(mut input: Input<'static>, mut state: DisplayState) ->
         input.wait_for_rising_edge().await;
         let display = state.next_state();
         state = display;
-        // defmt::info!("state: {:?}", state);
         CYCLE_DISPLAY.signal(state);
         // Debounce a little
         Timer::after_millis(50).await;
@@ -62,35 +62,62 @@ async fn wait_for_pull_up(mut input: Input<'static>, mut state: DisplayState) ->
 async fn refresh_display(
     mut bme: BME280<Twim<'static>>,
     mut display: MAX7219<PinConnector<Output<'static>, Output<'static>, Output<'static>>>,
+    mut current_state: DisplayState,
 ) -> ! {
     loop {
-        match bme.measure(&mut Delay) {
-            Ok(measurements) => {
-                defmt::info!("Relative Humidity = {}%", measurements.humidity);
-                defmt::info!("Temperature = {} deg C", measurements.temperature);
-                defmt::info!("Pressure = {} pascals", measurements.pressure);
-
-                let humidity = truncf(measurements.humidity) as i32;
-                let temp = measurements.temperature;
-                let int_temp = truncf(temp) as i32;
-                let int_temp = int_temp.min(85);
-                let int_temp = int_temp.max(-40);
-                let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
-                let frac_temp = frac_temp.min(9);
-
-                let mut s = String::<8>::new();
-                write!(&mut s, "{:02}{}C{:03}H", int_temp, frac_temp, humidity).unwrap();
-                defmt::info!("{}", s.as_str());
-
-                let buf: [u8; 8] = s.as_bytes().try_into().unwrap();
-                // let dots = if int_temp < 0 { 0b00100000 } else { 0b01000000 };
-                display.write_str(0, &buf, 0b01000000).unwrap();
+        match select(CYCLE_DISPLAY.wait(), Timer::after_millis(30)).await {
+            Either::First(next_state) => {
+                defmt::info!("state = {}", next_state);
+                current_state = next_state;
             }
-            Err(_) => {
-                defmt::warn!("failed to measure BME280 sensor");
-            }
+            Either::Second(_) => match bme.measure(&mut Delay) {
+                Ok(measurements) => {
+                    defmt::debug!("Relative Humidity = {}%", measurements.humidity);
+                    defmt::debug!("Temperature = {} deg C", measurements.temperature);
+                    defmt::debug!("Pressure = {} pascals", measurements.pressure);
+
+                    let (value, dots) = match current_state {
+                        DisplayState::Temp => {
+                            let temp = measurements.temperature;
+                            // let temp = -39.45f32;
+                            let int_temp = truncf(temp) as i32;
+                            let int_temp = int_temp.min(85);
+                            let int_temp = int_temp.max(-40);
+                            let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
+                            let frac_temp = frac_temp.min(9);
+                            let mut s = String::<8>::new();
+                            if int_temp < 0 {
+                                write!(&mut s, "{:02}{}{:>4}", int_temp, frac_temp, "CEL").unwrap();
+                            } else {
+                                write!(&mut s, "{:02}{:02}{:>4}", int_temp, frac_temp, "CEL")
+                                    .unwrap();
+                            }
+                            let dots = if int_temp < 0 { 0b00100000 } else { 0b01000000 };
+                            (s, dots)
+                        }
+                        DisplayState::Humidity => {
+                            let humidity = truncf(measurements.humidity) as i32;
+                            let mut s = String::<8>::new();
+                            write!(&mut s, "{:<4}{:>4}", humidity, "PHU").unwrap();
+                            (s, 0)
+                        }
+                        DisplayState::Pressure => {
+                            let pressure = truncf(measurements.pressure) as i32 / 100;
+                            let mut s = String::<8>::new();
+                            write!(&mut s, "{:<4}{:>4}", pressure, "HPA").unwrap();
+                            (s, 0)
+                        }
+                    };
+
+                    defmt::debug!("{}", value.as_str());
+                    let buf: [u8; 8] = value.as_bytes().try_into().unwrap();
+                    display.write_str(0, &buf, dots).unwrap();
+                }
+                Err(_) => {
+                    defmt::warn!("failed to measure BME280 sensor");
+                }
+            },
         }
-        Timer::after_secs(5).await;
     }
 }
 
@@ -132,7 +159,7 @@ async fn main(_spawner: Spawner) {
     let input = Input::new(p.P1_05, Pull::Up);
     join(
         wait_for_pull_up(input, DisplayState::default()),
-        refresh_display(bme, driver),
+        refresh_display(bme, driver, DisplayState::default()),
     )
     .await;
 }
