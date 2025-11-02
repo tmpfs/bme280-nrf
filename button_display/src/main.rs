@@ -152,9 +152,10 @@ async fn main(_spawner: Spawner) {
     bme.init(&mut Delay).expect("to init bme280 sensor");
 
     let input = Input::new(p.P1_05, Pull::Up);
+    let default_state = DisplayState::default();
     join(
-        wait_for_pull_up(input, DisplayState::default()),
-        refresh_display(bme, driver, DisplayState::default()),
+        wait_for_pull_up(input, default_state),
+        refresh_display(bme, driver, default_state),
     )
     .await;
 }
