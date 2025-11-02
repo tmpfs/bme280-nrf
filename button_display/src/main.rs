@@ -80,20 +80,15 @@ async fn refresh_display(
                         DisplayState::Temp => {
                             let temp = measurements.temperature;
                             // let temp = -39.45f32;
+                            // let temp = -2.74f32;
                             let int_temp = truncf(temp) as i32;
                             let int_temp = int_temp.min(85);
                             let int_temp = int_temp.max(-40);
                             let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
                             let frac_temp = frac_temp.min(9);
                             let mut s = String::<8>::new();
-                            if int_temp < 0 {
-                                write!(&mut s, "{:02}{}{:>4}", int_temp, frac_temp, "CEL").unwrap();
-                            } else {
-                                write!(&mut s, "{:02}{:02}{:>4}", int_temp, frac_temp, "CEL")
-                                    .unwrap();
-                            }
-                            let dots = if int_temp < 0 { 0b00100000 } else { 0b01000000 };
-                            (s, dots)
+                            write!(&mut s, "{:>3}{}{:>4}", int_temp, frac_temp, "CEL").unwrap();
+                            (s, 0b00100000)
                         }
                         DisplayState::Humidity => {
                             let humidity = truncf(measurements.humidity) as i32;
