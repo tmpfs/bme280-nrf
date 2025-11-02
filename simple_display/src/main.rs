@@ -3,8 +3,8 @@
 
 use core::fmt::Write;
 use embassy_executor::Spawner;
-use embassy_nrf::bind_interrupts;
 use embassy_nrf::{
+    bind_interrupts,
     gpio::{Level, Output, OutputDrive},
     peripherals,
     twim::{self, Twim},

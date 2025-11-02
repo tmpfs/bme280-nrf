@@ -4,22 +4,18 @@
 use bme280::i2c::BME280;
 use core::fmt::Write;
 use embassy_executor::Spawner;
-use embassy_futures::select::Either;
-use embassy_futures::{join::join, select::select};
-use embassy_nrf::bind_interrupts;
-use embassy_nrf::gpio::{Input, Pull};
+use embassy_futures::{join::join, select::Either, select::select};
 use embassy_nrf::{
-    gpio::{Level, Output, OutputDrive},
+    bind_interrupts,
+    gpio::{Input, Level, Output, OutputDrive, Pull},
     peripherals,
     twim::{self, Twim},
 };
-use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
-use embassy_sync::signal::Signal;
+use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, signal::Signal};
 use embassy_time::{Delay, Timer};
 use heapless::String;
 use libm::{fabsf, roundf, truncf};
-use max7219::MAX7219;
-use max7219::connectors::PinConnector;
+use max7219::{MAX7219, connectors::PinConnector};
 use static_cell::ConstStaticCell;
 use {defmt_rtt as _, panic_probe as _};
 
