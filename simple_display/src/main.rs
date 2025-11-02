@@ -36,7 +36,7 @@ async fn main(_spawner: Spawner) {
     driver.power_on().unwrap();
     driver.set_intensity(0, 0x1).unwrap();
 
-    defmt::info!("max7219 display initialised!");
+    defmt::info!("MAX7219 display initialized!");
 
     let sda = p.P0_13;
     let scl = p.P0_12;
@@ -53,7 +53,9 @@ async fn main(_spawner: Spawner) {
     );
 
     let mut bme = bme280::i2c::BME280::new_primary(i2c);
-    bme.init(&mut Delay).expect("to init bme280 sensor");
+    bme.init(&mut Delay).expect("to init BME280 sensor");
+
+    defmt::info!("BME280 sensor initialized!");
 
     loop {
         match bme.measure(&mut Delay) {
