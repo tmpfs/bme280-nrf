@@ -77,12 +77,10 @@ async fn refresh_display(
 
                     let (value, dots) = match current_state {
                         DisplayState::Temp => {
-                            let temp = measurements.temperature;
+                            let temp = measurements.temperature.clamp(-40.0, 85.0);
                             // let temp = -39.45f32;
                             // let temp = -2.74f32;
                             let int_temp = truncf(temp) as i32;
-                            let int_temp = int_temp.min(85);
-                            let int_temp = int_temp.max(-40);
                             let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
                             let frac_temp = frac_temp.min(9);
                             let mut s = String::<8>::new();
@@ -90,13 +88,15 @@ async fn refresh_display(
                             (s, 0b00100000)
                         }
                         DisplayState::Humidity => {
-                            let humidity = truncf(measurements.humidity) as i32;
+                            let humidity = truncf(measurements.humidity.clamp(0.0, 100.0)) as i32;
                             let mut s = String::<8>::new();
                             write!(&mut s, "{:>4}{:>4}", humidity, "PHU").unwrap();
                             (s, 0)
                         }
                         DisplayState::Pressure => {
-                            let pressure = truncf(measurements.pressure) as i32 / 100;
+                            let pressure = truncf(measurements.pressure.clamp(33_000.0, 110_000.0))
+                                as i32
+                                / 100;
                             let mut s = String::<8>::new();
                             write!(&mut s, "{:>4}{:>4}", pressure, "HPA").unwrap();
                             (s, 0)
