@@ -51,8 +51,7 @@ static CYCLE_DISPLAY: Signal<CriticalSectionRawMutex, DisplayState> = Signal::ne
 async fn wait_for_pull_up(mut input: Input<'static>, mut state: DisplayState) -> ! {
     loop {
         input.wait_for_rising_edge().await;
-        let display = state.next_state();
-        state = display;
+        state = state.next_state();
         CYCLE_DISPLAY.signal(state);
         // Debounce a little
         Timer::after_millis(50).await;
