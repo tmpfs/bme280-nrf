@@ -93,13 +93,13 @@ async fn refresh_display(
                         DisplayState::Humidity => {
                             let humidity = truncf(measurements.humidity) as i32;
                             let mut s = String::<8>::new();
-                            write!(&mut s, "{:<4}{:>4}", humidity, "PHU").unwrap();
+                            write!(&mut s, "{:>4}{:>4}", humidity, "PHU").unwrap();
                             (s, 0)
                         }
                         DisplayState::Pressure => {
                             let pressure = truncf(measurements.pressure) as i32 / 100;
                             let mut s = String::<8>::new();
-                            write!(&mut s, "{:<4}{:>4}", pressure, "HPA").unwrap();
+                            write!(&mut s, "{:>4}{:>4}", pressure, "HPA").unwrap();
                             (s, 0)
                         }
                     };
