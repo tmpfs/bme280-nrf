@@ -1,6 +1,8 @@
 ## Weather Sensor
 
-Demonstration of connecting the [BME280][] sensor with an [MAX7219][] 7-segment LED display controlled by an [Nordic nRF52840][].
+Source code to accompany the [weather sensor article](https://tmpfs.org/posts/weather-sensor/).
+
+Demonstrates connecting the [BME280][] sensor with a [MAX7219][] 7-segment LED display controlled by a [Nordic nRF52840][].
 
 ## License
 
