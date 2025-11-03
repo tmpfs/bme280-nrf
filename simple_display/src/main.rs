@@ -65,10 +65,8 @@ async fn main(_spawner: Spawner) {
                 defmt::info!("Pressure = {} pascals", measurements.pressure);
 
                 let humidity = truncf(measurements.humidity) as i32;
-                let temp = measurements.temperature;
+                let temp = measurements.temperature.clamp(-40.0, 85.0);
                 let int_temp = truncf(temp) as i32;
-                let int_temp = int_temp.min(85);
-                let int_temp = int_temp.max(-40);
                 let frac_temp = (roundf(fabsf(temp - truncf(temp)) * 10.0)) as u32;
                 let frac_temp = frac_temp.min(9);
 
