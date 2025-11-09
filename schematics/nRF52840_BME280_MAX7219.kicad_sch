@@ -4,6 +4,11 @@
 	(generator_version "9.0")
 	(uuid "cf373075-12d0-4af2-b187-45bd051cad07")
 	(paper "A4")
+	(title_block
+		(title "Weather sensor (nRF52840 w/ BME280 and MAX7219)")
+		(date "2025-11-09")
+		(rev "1")
+	)
 	(lib_symbols
 		(symbol "Connector:Conn_ARM_JTAG_SWD_10"
 			(pin_names
@@ -2939,7 +2944,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 87.63) (xy 186.69 91.44)
+			(xy 203.2 72.39) (xy 203.2 76.2)
 		)
 		(stroke
 			(width 0)
@@ -2979,16 +2984,6 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 134.62) (xy 176.53 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2f88f04f-bdcc-4c63-8f39-6cab66677bda")
-	)
-	(wire
-		(pts
 			(xy 137.16 82.55) (xy 148.59 82.55)
 		)
 		(stroke
@@ -3009,7 +3004,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 77.47) (xy 146.05 124.46)
+			(xy 146.05 77.47) (xy 146.05 119.38)
 		)
 		(stroke
 			(width 0)
@@ -3039,7 +3034,7 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 127) (xy 168.91 127)
+			(xy 143.51 121.92) (xy 193.04 121.92)
 		)
 		(stroke
 			(width 0)
@@ -3049,7 +3044,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 142.24) (xy 186.69 147.32)
+			(xy 203.2 127) (xy 203.2 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3069,7 +3064,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 124.46) (xy 171.45 124.46)
+			(xy 146.05 119.38) (xy 193.04 119.38)
 		)
 		(stroke
 			(width 0)
@@ -3079,7 +3074,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 121.92) (xy 176.53 121.92)
+			(xy 148.59 116.84) (xy 193.04 116.84)
 		)
 		(stroke
 			(width 0)
@@ -3109,33 +3104,13 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 80.01) (xy 143.51 127)
+			(xy 143.51 80.01) (xy 143.51 121.92)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "a3083d6b-163f-48e5-b966-27ab395adaec")
-	)
-	(wire
-		(pts
-			(xy 168.91 137.16) (xy 176.53 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a39c0567-27a0-4209-b03e-db8b6d4ee613")
-	)
-	(wire
-		(pts
-			(xy 171.45 124.46) (xy 171.45 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b03111ec-451d-4850-9160-d4ad029c79f2")
 	)
 	(wire
 		(pts
@@ -3149,23 +3124,13 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 82.55) (xy 148.59 121.92)
+			(xy 148.59 82.55) (xy 148.59 116.84)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "be2379f0-376b-4d1a-8935-f184f42d9e64")
-	)
-	(wire
-		(pts
-			(xy 176.53 121.92) (xy 176.53 132.08)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d9c67d77-3b76-44c1-8bad-d87eb4edd27a")
 	)
 	(wire
 		(pts
@@ -3207,19 +3172,9 @@
 		)
 		(uuid "f6f911b3-ffd2-4a29-a010-2d3d1dc4cf24")
 	)
-	(wire
-		(pts
-			(xy 168.91 127) (xy 168.91 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fa0931db-bae3-489e-bd47-b58a65e87b4b")
-	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 186.69 87.63 0)
+		(at 203.2 72.39 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3228,7 +3183,7 @@
 		(fields_autoplaced yes)
 		(uuid "0696e129-b000-4919-87b0-4cee70e05550")
 		(property "Reference" "#PWR04"
-			(at 186.69 91.44 0)
+			(at 203.2 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3237,7 +3192,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 186.69 82.55 0)
+			(at 203.2 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3245,7 +3200,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 186.69 87.63 0)
+			(at 203.2 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3254,7 +3209,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 186.69 87.63 0)
+			(at 203.2 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3263,7 +3218,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 186.69 87.63 0)
+			(at 203.2 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3351,7 +3306,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 186.69 147.32 0)
+		(at 203.2 129.54 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3360,7 +3315,7 @@
 		(fields_autoplaced yes)
 		(uuid "1edafa2c-a17f-4700-8cf6-39ba6ace4541")
 		(property "Reference" "#PWR07"
-			(at 186.69 153.67 0)
+			(at 203.2 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3369,7 +3324,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 186.69 152.4 0)
+			(at 203.2 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3377,7 +3332,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 186.69 147.32 0)
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3386,7 +3341,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 186.69 147.32 0)
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3395,7 +3350,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 186.69 147.32 0)
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3483,7 +3438,7 @@
 	)
 	(symbol
 		(lib_id "Driver_LED:MAX7219")
-		(at 186.69 116.84 0)
+		(at 203.2 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3491,7 +3446,7 @@
 		(dnp no)
 		(uuid "4217c3d8-e772-4bc0-9363-e5a3598ec149")
 		(property "Reference" "U3"
-			(at 188.8333 88.9 0)
+			(at 205.3433 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3500,7 +3455,7 @@
 			)
 		)
 		(property "Value" "MAX7219"
-			(at 188.8333 91.44 0)
+			(at 205.3433 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3509,7 +3464,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 185.42 115.57 0)
+			(at 201.93 100.33 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3518,7 +3473,7 @@
 			)
 		)
 		(property "Datasheet" "https://datasheets.maximintegrated.com/en/ds/MAX7219-MAX7221.pdf"
-			(at 187.96 120.65 0)
+			(at 204.47 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3527,7 +3482,7 @@
 			)
 		)
 		(property "Description" "8-Digit LED Display Driver"
-			(at 186.69 116.84 0)
+			(at 203.2 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
