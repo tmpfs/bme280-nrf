@@ -4,6 +4,8 @@ Source code to accompany the [weather sensor article](https://tmpfs.org/posts/we
 
 Demonstrates connecting the [BME280][] sensor with a [MAX7219][] 7-segment LED display controlled by a [Nordic nRF52840][].
 
+![Schematic](./schematics/nRF52840_BME280_MAX7219.svg)
+
 ## License
 
 MIT or Apache-2.0
